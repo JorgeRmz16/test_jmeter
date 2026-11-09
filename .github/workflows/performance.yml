@@ -19,7 +19,6 @@ jobs:
 
       - name: Run JMeter Test
         run: |
-          # Generamos el timestamp para usarlo de forma consistente
           TIMESTAMP=$(date +%Y-%m-%d_%H-%M-%S)
           echo "JTL_NAME=results_${TIMESTAMP}.jtl" >> $GITHUB_ENV
 
@@ -28,11 +27,29 @@ jobs:
             -v ${{ github.workspace }}/results:/results \
             jmeter-demo \
             jmeter -n \
-            -t /tests/DumyJSON.jmx \
+            -t /tests/login.jmx \
             -Jusers=10 \
             -Jrampup=10 \
             -Jloops=1 \
             -l "/results/results_${TIMESTAMP}.jtl"
+
+      - name: Generate HTML Report
+        run: |
+          # Verificamos que el archivo JTL exista y tenga contenido antes de correr el generador
+          JTL_PATH="${{ github.workspace }}/results/${{ env.JTL_NAME }}"
+          
+          if [ ! -s "$JTL_PATH" ]; then
+            echo "Error: El archivo JTL está vacío o no existe."
+            exit 1
+          fi
+
+          docker run --rm \
+            -v ${{ github.workspace }}/results:/results \
+            -v ${{ github.workspace }}/reports:/reports \
+            jmeter-demo \
+            jmeter \
+            -g /results/${{ env.JTL_NAME }} \
+            -o /reports/report
 
       - name: Generate HTML Report
         run: |
