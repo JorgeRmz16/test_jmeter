@@ -22,15 +22,21 @@ jobs:
           TIMESTAMP=$(date +%Y-%m-%d_%H-%M-%S)
           echo "JTL_NAME=results_${TIMESTAMP}.jtl" >> $GITHUB_ENV
 
+          # Creamos los directorios localmente para asegurar permisos correctos
+          mkdir -p ${{ github.workspace }}/results
+          mkdir -p ${{ github.workspace }}/reports
+
           docker run --rm \
             -v ${{ github.workspace }}/tests:/tests \
             -v ${{ github.workspace }}/results:/results \
+            -v ${{ github.workspace }}/data:/data \
             jmeter-demo \
             jmeter -n \
             -t /tests/DumyJSON.jmx \
             -Jusers=10 \
             -Jrampup=10 \
             -Jloops=1 \
+            -f \
             -l "/results/results_${TIMESTAMP}.jtl"
 
       - name: Generate HTML Report
@@ -51,16 +57,6 @@ jobs:
             -g /results/${{ env.JTL_NAME }} \
             -o /reports/report
 
-      - name: Generate HTML Report
-        run: |
-          docker run --rm \
-            -v ${{ github.workspace }}/results:/results \
-            -v ${{ github.workspace }}/reports:/reports \
-            jmeter-demo \
-            jmeter \
-            -g /results/${{ env.JTL_NAME }} \
-            -o /reports/report
-        
       - name: Upload HTML Report Artifact
         uses: actions/upload-artifact@v4
         with:
