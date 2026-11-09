@@ -1,0 +1,51 @@
+name: Performance Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  jmeter:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build Docker Image
+        run: |
+          docker build \
+            -t jmeter-demo \
+            -f docker/Dockerfile .
+
+      - name: Run JMeter Test
+        run: |
+          # Generamos el timestamp para usarlo de forma consistente
+          TIMESTAMP=$(date +%Y-%m-%d_%H-%M-%S)
+          echo "JTL_NAME=results_${TIMESTAMP}.jtl" >> $GITHUB_ENV
+
+          docker run --rm \
+            -v ${{ github.workspace }}/tests:/tests \
+            -v ${{ github.workspace }}/results:/results \
+            jmeter-demo \
+            jmeter -n \
+            -t /tests/login.jmx \
+            -Jusers=10 \
+            -Jrampup=10 \
+            -Jloops=1 \
+            -l "/results/results_${TIMESTAMP}.jtl"
+
+      - name: Generate HTML Report
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}/results:/results \
+            -v ${{ github.workspace }}/reports:/reports \
+            jmeter-demo \
+            jmeter \
+            -g /results/${{ env.JTL_NAME }} \
+            -o /reports/report
+        
+      - name: Upload HTML Report Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: jmeter-report-${{ github.run_id }}
+          path: reports/report
