@@ -28,7 +28,7 @@ jobs:
             -v ${{ github.workspace }}/results:/results \
             jmeter-demo \
             jmeter -n \
-            -t /tests/login.jmx \
+            -t /tests/DumyJSON.jmx \
             -Jusers=10 \
             -Jrampup=10 \
             -Jloops=1 \
