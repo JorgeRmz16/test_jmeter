@@ -2,6 +2,16 @@ name: Performance Test
 
 on:
   workflow_dispatch:
+    inputs:
+      environment:
+        description: "Target environment"
+        required: true
+        default: "qa"
+        type: choice
+        options:
+          - qa
+          - perf
+          - stage
 
 jobs:
   jmeter:
@@ -20,9 +30,9 @@ jobs:
       - name: Run JMeter Test
         run: |
           TIMESTAMP=$(date +%Y-%m-%d_%H-%M-%S)
+
           echo "JTL_NAME=results_${TIMESTAMP}.jtl" >> $GITHUB_ENV
 
-          # Creamos los directorios localmente para asegurar permisos correctos
           mkdir -p ${{ github.workspace }}/results
           mkdir -p ${{ github.workspace }}/reports
 
@@ -30,20 +40,18 @@ jobs:
             -v ${{ github.workspace }}/tests:/tests \
             -v ${{ github.workspace }}/results:/results \
             -v ${{ github.workspace }}/data:/data \
+            -v ${{ github.workspace }}/environments:/environments \
             jmeter-demo \
             jmeter -n \
+            -q /environments/${{ github.event.inputs.environment }}.properties \
             -t /tests/DumyJSON.jmx \
-            -Jusers=10 \
-            -Jrampup=10 \
-            -Jloops=1 \
             -f \
-            -l "/results/results_${TIMESTAMP}.jtl"
+            -l /results/results_${TIMESTAMP}.jtl
 
       - name: Generate HTML Report
         run: |
-          # Verificamos que el archivo JTL exista y tenga contenido antes de correr el generador
           JTL_PATH="${{ github.workspace }}/results/${{ env.JTL_NAME }}"
-          
+
           if [ ! -s "$JTL_PATH" ]; then
             echo "Error: El archivo JTL está vacío o no existe."
             exit 1

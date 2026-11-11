@@ -1,1 +1,37 @@
+Execute
 jmeter -n -t tests/DumyJSON.jmx -Jusers=5 -Jrampup=5 -Jloops=1 -l "results/results_${__time(yyyy-MM-dd_HH-mm-ss)}.jtl"
+
+Create Report
+jmeter -g "results/results_2026-11-09_13-46-31.jtl" -o reports/report
+
+Build Docker
+docker build -t jmeter-demo -f docker/Dockerfile .
+
+Verification Docker
+docker run --rm jmeter-demo jmeter -v
+
+Execute JMETER in Docker (cmd)
+docker run --rm ^
+-v "%cd%/tests:/tests" ^
+-v "%cd%/results:/results" ^
+-v "%cd%/data:/data" ^
+jmeter-name ^
+jmeter -n ^
+-Jusers=5 ^
+-Jrampup=5 ^
+-Jloops=1 ^
+-t /tests/DumyJSON.jmx ^
+-l "/results/results_${__time(yyyy-MM-dd_HH-mm-ss)}.jtl"
+
+.properties
+docker run --rm ^
+-v "%cd%/tests:/tests" ^
+-v "%cd%/results:/results" ^
+-v "%cd%/data:/data" ^
+-v "%cd%/environments:/environments" ^
+jmeter-demo ^
+jmeter ^
+-q /environments/qa.properties ^
+-n ^
+-t /tests/DumyJSON.jmx ^
+-l "/results/results_${__time(yyyy-MM-dd_HH-mm-ss)}.jtl"

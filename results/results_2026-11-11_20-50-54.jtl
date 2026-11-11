@@ -1,0 +1,21 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1794430254718,537,01_01 - auth/login - dummyjson.com,200,OK,DumyJSON 1-1,text,true,,2908,266,1,1,https://dummyjson.com/auth/login,537,0,358
+1794430254697,537,Get-Token,200,"Number of samples in transaction : 1, number of failing samples : 0",DumyJSON 1-1,,true,,2908,266,1,1,null,537,36,358
+1794430255271,182,02_01 - auth/me - dummyjson.com,200,OK,DumyJSON 1-1,text,true,,2485,1296,1,1,https://dummyjson.com/auth/me,181,0,0
+1794430255270,182,Get-User,200,"Number of samples in transaction : 1, number of failing samples : 0",DumyJSON 1-1,,true,,2485,1296,1,1,null,181,2,0
+1794430255690,258,01_01 - auth/login - dummyjson.com,200,OK,DumyJSON 1-2,text,true,,2961,270,1,1,https://dummyjson.com/auth/login,258,0,85
+1794430255689,258,Get-Token,200,"Number of samples in transaction : 1, number of failing samples : 0",DumyJSON 1-2,,true,,2961,270,1,1,null,258,2,85
+1794430255950,190,02_01 - auth/me - dummyjson.com,200,OK,DumyJSON 1-2,text,true,,2446,1329,1,1,https://dummyjson.com/auth/me,190,0,0
+1794430255950,190,Get-User,200,"Number of samples in transaction : 1, number of failing samples : 0",DumyJSON 1-2,,true,,2446,1329,1,1,null,190,1,0
+1794430256689,252,01_01 - auth/login - dummyjson.com,200,OK,DumyJSON 1-3,text,true,,2914,268,1,1,https://dummyjson.com/auth/login,252,0,77
+1794430256688,252,Get-Token,200,"Number of samples in transaction : 1, number of failing samples : 0",DumyJSON 1-3,,true,,2914,268,1,1,null,252,2,77
+1794430256943,183,02_01 - auth/me - dummyjson.com,200,OK,DumyJSON 1-3,text,true,,2444,1296,1,1,https://dummyjson.com/auth/me,183,0,0
+1794430256942,183,Get-User,200,"Number of samples in transaction : 1, number of failing samples : 0",DumyJSON 1-3,,true,,2444,1296,1,1,null,183,2,0
+1794430257690,258,01_01 - auth/login - dummyjson.com,200,OK,DumyJSON 1-4,text,true,,2904,266,1,1,https://dummyjson.com/auth/login,258,0,74
+1794430257689,258,Get-Token,200,"Number of samples in transaction : 1, number of failing samples : 0",DumyJSON 1-4,,true,,2904,266,1,1,null,258,1,74
+1794430257949,161,02_01 - auth/me - dummyjson.com,200,OK,DumyJSON 1-4,text,true,,2486,1296,1,1,https://dummyjson.com/auth/me,161,0,0
+1794430257948,161,Get-User,200,"Number of samples in transaction : 1, number of failing samples : 0",DumyJSON 1-4,,true,,2486,1296,1,1,null,161,1,0
+1794430258687,257,01_01 - auth/login - dummyjson.com,200,OK,DumyJSON 1-5,text,true,,2955,270,1,1,https://dummyjson.com/auth/login,257,0,80
+1794430258686,257,Get-Token,200,"Number of samples in transaction : 1, number of failing samples : 0",DumyJSON 1-5,,true,,2955,270,1,1,null,257,2,80
+1794430258945,176,02_01 - auth/me - dummyjson.com,200,OK,DumyJSON 1-5,text,true,,2447,1329,1,1,https://dummyjson.com/auth/me,176,0,0
+1794430258945,176,Get-User,200,"Number of samples in transaction : 1, number of failing samples : 0",DumyJSON 1-5,,true,,2447,1329,1,1,null,176,1,0
